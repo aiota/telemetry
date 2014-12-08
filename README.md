@@ -1,4 +1,4 @@
 server
 ======
 
-AIoTA Telemetry Worker
+AIoTA Telemetry Process
