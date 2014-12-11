@@ -521,24 +521,34 @@ function handleTelemetryRequest(db, msg, callback)
 	}
 }
 
-MongoClient.connect("mongodb://" + config.database.host + ":" + config.database.port + "/" + config.database.name, function(err, db) {
+MongoClient.connect("mongodb://" + config.database.host + ":" + config.database.port + "/aiota", function(err, aiotaDB) {
 	if (err) {
-		console.log(err);
+		aiota.log(config.processName, err);
 	}
 	else {
-		dbConnection = db;
-		var bus = amqp.createConnection(config.amqp);
+		aiota.processHeartbeat(config.processName, config.serverName, aiotaDB);
 		
-		bus.on("ready", function() {
-			var cl = { group: "device", type: "telemetry" };
-			bus.queue(aiota.getQueue(cl), { autoDelete: false, durable: true }, function(queue) {
-				queue.subscribe({ ack: true, prefetchCount: 1 }, function(msg) {
-					handleTelemetryRequest(db, msg, function(result) {
-						queue.shift();
+		MongoClient.connect("mongodb://" + config.database.host + ":" + config.database.port + "/" + config.database.name, function(err, db) {
+			if (err) {
+				aiota.log(config.processName, err);
+			}
+			else {
+				dbConnection = db;
+				var bus = amqp.createConnection(config.amqp);
+				
+				bus.on("ready", function() {
+					var cl = { group: "device", type: "telemetry" };
+					bus.queue(aiota.getQueue(cl), { autoDelete: false, durable: true }, function(queue) {
+						queue.subscribe({ ack: true, prefetchCount: 1 }, function(msg) {
+							handleTelemetryRequest(db, msg, function(result) {
+								queue.shift();
+							});
+						});
 					});
 				});
-			});
+
+				setInterval(function() { aiota.processHeartbeat(config.processName, config.serverName, aiotaDB); }, 10000);
+			}
 		});
 	}
 });
-

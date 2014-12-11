@@ -1,7 +1,7 @@
 {
 	"name": "aiota-telemetry",
-	"version": "0.0.1",
-	"description": "AIoTA Telemetry Message Worker",
+	"version": "0.0.2",
+	"description": "AiotA Telemetry Message Micro Process",
 	"main": "telemetry.js",
 	"repository": {
 		"type": "git",
@@ -10,7 +10,7 @@
 	"author": "Arthur Viegers <arthur@mongodb.com>",
 	"contributors": [
 		{
-			"name": [ "AIoTA Team" ],
+			"name": [ "AiotA Team" ],
 			"email": [ "arthur@mongodb.com", "pattyn.kurt@gmail.com" ]
 		}
 	],
