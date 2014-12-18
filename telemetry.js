@@ -4,7 +4,7 @@ var jsonValidate = require("jsonschema").validate;
 var MongoClient = require("mongodb").MongoClient;
 
 var config = null;
-var process = "telemetry.js";
+var processName = "telemetry.js";
 var dbConnection = null;
 var storageQueue = [];
 
