@@ -1,6 +1,6 @@
 {
 	"name": "aiota-telemetry",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"description": "AiotA Telemetry Message Micro Process",
 	"main": "telemetry.js",
 	"repository": {
